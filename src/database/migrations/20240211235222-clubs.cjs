@@ -18,6 +18,13 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    abreviate_name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        len: [3, 3]
+      }
+    },
     path: {
       type: Sequelize.STRING,
       allowNull: false,

@@ -1,18 +1,19 @@
-import Sequelize from "sequelize";
-import Register from "../app/models/Register.js";
+import Sequelize from 'sequelize';
+import Clubs from '../app/models/Clubs.js';
+import Register from '../app/models/Register.js';
 import configDatabase from '../config/database.cjs';
 
-const models = [ Register ];
+const models = [ Register, Clubs ];
 
 class Database {
-    constructor(){
+    constructor() {
         this.init()
-    }
+    };
 
-    init(){
-        this.conecction = new Sequelize(configDatabase);
-        models.map( (model) => model.init(this.conecction));
-    }
+    init() {
+        this.connection = new Sequelize(configDatabase);
+        models.map((model) => model.init(this.connection)).map(model => model.associate && model.associate(this.connection.models));
+    };
 }
 
 export default new Database();

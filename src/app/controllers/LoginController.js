@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import Register from '../models/Register.js';
-
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth.js';
 class LoginController {
     async store( req, res ) {
         const schema = Yup.object().shape({
@@ -36,7 +37,11 @@ class LoginController {
             id: player.id,
             name: player.name,
             email: player.email,
-            admin: player.admin
+            admin: player.admin,
+            club_id: player.club_id,
+            token: jwt.sign({ id: player.id, name: player.name }, authConfig.secret, {
+                expiresIn: authConfig.expiresIn,
+            })
         });
     };
 };
