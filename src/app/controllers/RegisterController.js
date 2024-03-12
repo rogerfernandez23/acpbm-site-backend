@@ -57,7 +57,7 @@ class RegisterController {
 
     async update( req, res ) {
         const schema = Yup.object().shape({
-            club_id: Yup.string()
+            club_id: Yup.number()
         });
 
         try {
@@ -68,7 +68,7 @@ class RegisterController {
 
         const { club_id } = req.body;
         const { id } = req.params;
-
+        
         const userValid = await Register.findByPk(id);
 
         if (!userValid) {
@@ -76,7 +76,7 @@ class RegisterController {
         }
 
         await Register.update({ club_id },
-            { where: { id }}
+            { where : { id }}
         );
 
         return res.status(200).json({ sucess: 'dados do usuário registrados com sucesso!'})
