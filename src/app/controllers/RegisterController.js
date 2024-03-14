@@ -1,9 +1,9 @@
 import { v4 } from 'uuid';
 import * as Yup from 'yup';
 
+import { send } from '../../config/sendEmail.js';
 import Clubs from '../models/Clubs.js';
 import Register from '../models/Register.js';
-import { send } from '../../config/nodemailer.js';
 
 class RegisterController {
     async store( req, res ) {
@@ -37,8 +37,8 @@ class RegisterController {
             password,
             admin
         });
-
-        send(email);
+        
+        send(name, email);
         
         return res.status(200).json({ sucess: "cadastro realizado com sucesso!" })
     };
