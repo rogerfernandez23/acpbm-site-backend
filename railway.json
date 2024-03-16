@@ -10,7 +10,7 @@
           },
           "npm:install": {
             "dependsOn": ["setup"],
-            "cmds": ["npm ci"]
+            "cmds": ["yarn ci"]
           }
         }
       }
