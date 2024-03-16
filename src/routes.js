@@ -10,6 +10,10 @@ import authMiddlewares from './app/middlewares/auth.js';
 const upload = multer(multerconfig);
 const routes = new Router();
 
+routes.get('/', (req, res) => {
+    return res.json({sucess: 'Servidor iniciado!! 🚀'})
+})
+
 // ROUTES FREE
 routes.post('/register', RegisterController.store);
 routes.post('/login', LoginController.store);
