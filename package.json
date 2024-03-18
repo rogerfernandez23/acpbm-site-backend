@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
     "build": "babel src -d lib",
+    "vercel-build": "yarn install --ignore-scripts",
     "prebuild": "jest"
   },
   "keywords": [],
