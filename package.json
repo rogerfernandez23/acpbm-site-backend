@@ -14,10 +14,10 @@
     "vercel-build": "yarn install --ignore-scripts",
     "prebuild": "jest"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "base-64": "^1.0.0",
     "bcrypt": "^5.1.1",
