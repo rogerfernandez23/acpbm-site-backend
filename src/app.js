@@ -1,13 +1,10 @@
-import express from "express";
-import cors from 'cors';
-import routes from "./routes.js";
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+const express = require("express");
+const cors = require('cors');
+const routes = require("./routes.js");
+const { resolve } = require('path');
 
-import './database/index.js';
+require('./database/index.js');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 class App {
   constructor() {
     this.app = express();
@@ -29,4 +26,5 @@ class App {
   }
 }
 
-export default new App().app;
+module.exports = new App().app;
+

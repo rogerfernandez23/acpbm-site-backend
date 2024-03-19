@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import RegisterController from './app/controllers/RegisterController.js';
-import LoginController from './app/controllers/LoginController.js';
-import ClubsController from './app/controllers/ClubsController.js';
-import multerconfig from './config/multer.js';
-import multer from 'multer';
+const { Router } = require('express');
+const RegisterController = require('./app/controllers/RegisterController.js');
+const LoginController = require('./app/controllers/LoginController.js');
+const ClubsController = require('./app/controllers/ClubsController.js');
+const multerconfig = require('./config/multer.js');
+const multer = require('multer');
 
-import authMiddlewares from './app/middlewares/auth.js';
+const authMiddlewares = require('./app/middlewares/auth.js');
 
 const upload = multer(multerconfig);
-const routes = new Router();
+const routes = Router();
 
 routes.get('/', (req, res) => {
     return res.json({sucess: 'Servidor iniciado!! 🚀'})
@@ -30,4 +30,4 @@ routes.get('/clubs', upload.single('file'), ClubsController.index);
 routes.put('/clubs/:id', upload.single('file'), ClubsController.update);
 routes.delete('/clubs/:id', upload.single('file'), ClubsController.delete);
 
-export default routes;
+module.exports = routes;

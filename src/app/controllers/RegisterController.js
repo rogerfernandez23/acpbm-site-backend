@@ -1,12 +1,12 @@
-import { v4 } from 'uuid';
-import * as Yup from 'yup';
+const { v4 } = require('uuid');
+const Yup = require('yup');
 
-import { send } from '../../config/sendEmail.js';
-import Clubs from '../models/Clubs.js';
-import Register from '../models/Register.js';
+const { send } = require('../../config/sendEmail.js');
+const Clubs = require('../models/Clubs.js');
+const Register = require('../models/Register.js');
 
 class RegisterController {
-    async store( req, res ) {
+    async store(req, res) {
         const schema = Yup.object().shape({
             name: Yup.string().required(),
             email: Yup.string().email().required(),
@@ -15,7 +15,7 @@ class RegisterController {
         });
 
         try {
-            await schema.validateSync(req.body, { abortEarly:false });
+            await schema.validateSync(req.body, { abortEarly: false });
         } catch (err) {
             return res.status(400).json({ error: err.errors })
         }
@@ -26,8 +26,8 @@ class RegisterController {
             where: { email }
         });
 
-        if(emailIsUnique) {
-            return res.status(409).json({ error: "e-mail já cadastrado"})
+        if (emailIsUnique) {
+            return res.status(409).json({ error: "e-mail já cadastrado" })
         }
 
         await Register.create({
@@ -37,50 +37,50 @@ class RegisterController {
             password,
             admin
         });
-        
+
         send(name, email);
-        
-        return res.status(200).json({ sucess: "cadastro realizado com sucesso!" })
+
+        return res.status(200).json({ success: "cadastro realizado com sucesso!" })
     };
 
-    async index( req, res ) {
+    async index(req, res) {
         const registers = await Register.findAll({
             include: [{
                 model: Clubs,
-                as:'club',
-                attributes: [ 'club_name' ],
+                as: 'club',
+                attributes: ['club_name'],
             }]
         });
 
         return res.status(200).json(registers);
     }
 
-    async update( req, res ) {
+    async update(req, res) {
         const schema = Yup.object().shape({
             club_id: Yup.number()
         });
 
         try {
-            await schema.validateSync(req.body, {abortEarly: false})
+            await schema.validateSync(req.body, { abortEarly: false })
         } catch (err) {
             return res.status(400).json({ error: err.errors })
         }
 
         const { club_id } = req.body;
         const { id } = req.params;
-        
+
         const userValid = await Register.findByPk(id);
 
         if (!userValid) {
-            return res.status(401).json({ error: 'usuário não existe'})
+            return res.status(401).json({ error: 'usuário não existe' })
         }
 
         await Register.update({ club_id },
-            { where : { id }}
+            { where: { id } }
         );
 
-        return res.status(200).json({ sucess: 'dados do usuário registrados com sucesso!'})
+        return res.status(200).json({ success: 'dados do usuário registrados com sucesso!' })
     }
 }
 
-export default new RegisterController();
+module.exports = new RegisterController();

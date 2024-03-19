@@ -1,6 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+const Sequelize = require('sequelize');
 
-class Clubs extends Model {
+class Clubs extends Sequelize.Model {
     static init(sequelize) {
         super.init(
             {
@@ -20,9 +20,8 @@ class Clubs extends Model {
             }
         );
 
-    return this;
-    
+        return this;
     }
 };
 
-export default Clubs;
+module.exports = Clubs;

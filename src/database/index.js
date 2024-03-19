@@ -1,9 +1,9 @@
-import Sequelize from 'sequelize';
-import Clubs from '../app/models/Clubs.js';
-import Register from '../app/models/Register.js';
-import configDatabase from '../config/database.cjs';
+const Sequelize = require('sequelize');
+const Clubs = require('../app/models/Clubs.js');
+const Register = require('../app/models/Register.js');
+const configDatabase = require('../config/database.cjs');
 
-const models = [ Register, Clubs ];
+const models = [Register, Clubs];
 
 class Database {
     constructor() {
@@ -16,4 +16,4 @@ class Database {
     };
 }
 
-export default new Database();
+module.exports = new Database();

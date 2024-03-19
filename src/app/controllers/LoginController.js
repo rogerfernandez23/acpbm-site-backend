@@ -1,9 +1,10 @@
-import * as Yup from 'yup';
-import Register from '../models/Register.js';
-import jwt from 'jsonwebtoken';
-import authConfig from '../../config/auth.js';
+const Yup = require('yup');
+const Register = require('../models/Register.js');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../../config/auth.js');
+
 class LoginController {
-    async store( req, res ) {
+    async store(req, res) {
         const schema = Yup.object().shape({
             email: Yup.string().email().required(),
             password: Yup.string().required(),
@@ -11,8 +12,8 @@ class LoginController {
 
         const errorLogin = () => {
             return res
-            .status(401)
-            .json({ error: 'e-mail ou senha incorreto!'})
+                .status(401)
+                .json({ error: 'e-mail ou senha incorreto!' })
         };
 
         if (!(await schema.isValid(req.body))) {
@@ -25,15 +26,15 @@ class LoginController {
             where: { email },
         })
 
-        if(!player) {
+        if (!player) {
             return errorLogin();
         };
 
-        if(!(await player.checkPassword(password))) {
+        if (!(await player.checkPassword(password))) {
             return errorLogin();
-        } 
+        }
 
-        return res.json({ 
+        return res.json({
             id: player.id,
             name: player.name,
             email: player.email,
@@ -46,4 +47,4 @@ class LoginController {
     };
 };
 
-export default new LoginController();
+module.exports = new LoginController();

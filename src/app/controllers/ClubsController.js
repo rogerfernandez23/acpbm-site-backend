@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
-import Clubs from '../models/Clubs.js';
+const Yup = require('yup');
+const Clubs = require('../models/Clubs.js');
 
 class ClubsController {
-    async store( req, res ) {
+    async store(req, res) {
         const schema = Yup.object().shape({
             club_name: Yup.string().required(),
             club_user: Yup.string().required(),
@@ -10,7 +10,7 @@ class ClubsController {
         });
 
         try {
-            await schema.validateSync(req.body, {abortEarly: false})
+            await schema.validateSync(req.body, { abortEarly: false })
         } catch (err) {
             return res.status(400).json({ error: err.errors })
         }
@@ -25,23 +25,23 @@ class ClubsController {
             path,
         })
 
-        return res.status(200).json({ sucess: 'clube criado com sucesso!'})
+        return res.status(200).json({ success: 'clube criado com sucesso!' })
     }
 
-    async index( req, res ) {
+    async index(req, res) {
         const clubs = await Clubs.findAll();
 
         return res.status(200).json(clubs);
     }
 
-    async update( req, res ) {
+    async update(req, res) {
         const schema = Yup.object().shape({
             club_name: Yup.string(),
             abreviate_name: Yup.string()
         });
 
         try {
-            await schema.validateSync(req.body, {abortEarly: false})
+            await schema.validateSync(req.body, { abortEarly: false })
         } catch (err) {
             return res.status(400).json({ error: err.errors })
         }
@@ -51,38 +51,37 @@ class ClubsController {
 
         const clubFind = await Clubs.findByPk(id);
 
-        if(!clubFind) {
-            return res.status(401).json({ error: 'clube não existe'})
+        if (!clubFind) {
+            return res.status(401).json({ error: 'clube não existe' })
         };
 
         let path
         if (req.file) {
-        path = req.file.filename;
+            path = req.file.filename;
         };
 
         await Clubs.update({ club_name, abreviate_name, path },
-            { where : { id }}
+            { where: { id } }
         );
 
-        return res.status(200).json({ sucess: 'clube atualizado com sucesso!'})
-        }
+        return res.status(200).json({ success: 'clube atualizado com sucesso!' })
+    }
 
-        async delete( req, res ) {
-            const { id } = req.params;
+    async delete(req, res) {
+        const { id } = req.params;
 
-            const clubFind = await Clubs.findByPk(id);
+        const clubFind = await Clubs.findByPk(id);
 
-            if(!clubFind) {
-                return res.status(400).json({ error: 'clube não existe'})
-            };
+        if (!clubFind) {
+            return res.status(400).json({ error: 'clube não existe' })
+        };
 
-            await Clubs.destroy({
-                where: { id }
-            })
+        await Clubs.destroy({
+            where: { id }
+        })
 
-            return res.status(200).json({ sucess: 'clube deletado com sucesso!'})
-        }
-    
-    };
+        return res.status(200).json({ success: 'clube deletado com sucesso!' })
+    }
+};
 
-export default new ClubsController();
+module.exports = new ClubsController();

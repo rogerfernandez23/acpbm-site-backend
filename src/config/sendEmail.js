@@ -1,6 +1,6 @@
-import { exec } from 'child_process';
+const { exec } = require('child_process');
 
-export const send = (name, email) => {
+const send = (name, email) => {
 
   const nameUser = `"${name}"`;
   const emailUser = `"${email}"`;
@@ -13,4 +13,7 @@ export const send = (name, email) => {
     console.log(`Saída do script Python: ${stdout}`)
   })
 };
+
+module.exports = { send };
+
 

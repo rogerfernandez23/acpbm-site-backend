@@ -1,7 +1,7 @@
-import Sequelize, { Model } from 'sequelize';
-import bcrypt from 'bcrypt';
+const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 
-class Register extends Model {
+class Register extends Sequelize.Model {
     static init(sequelize) {
         super.init(
             {
@@ -37,4 +37,4 @@ class Register extends Model {
     }
 };
 
-export default Register;
+module.exports = Register;
