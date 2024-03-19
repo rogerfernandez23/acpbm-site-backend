@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "backend",
   "version": "1.0.0",
   "description": "",
@@ -16,6 +15,7 @@
     "prebuild": "jest"
   },
   "keywords": [],
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
