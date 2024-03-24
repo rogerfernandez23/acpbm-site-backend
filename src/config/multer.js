@@ -4,7 +4,7 @@ const { resolve, extname } = require('path');
 
 module.exports = {
     storage: multer.diskStorage({
-        destination: resolve(__dirname, '..', 'temp'),
+        destination: resolve(__dirname, '..', 'uploads'),
         filename: (req, file, callback) => {
             return callback(null, v4() + extname(file.originalname));
         }

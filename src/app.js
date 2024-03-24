@@ -17,7 +17,7 @@ class App {
     this.app.use(express.json());
     this.app.use(
       '/club-logo',
-      express.static(resolve(__dirname, 'temp'))
+      express.static(resolve(__dirname, 'uploads'))
     )
   }
 
