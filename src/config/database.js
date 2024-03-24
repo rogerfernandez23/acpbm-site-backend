@@ -10,9 +10,3 @@ module.exports = {
         underscoreAll: true,
     },
 }
-
-
-// host: 'localhost',
-// username: 'postgres',
-// password: 'teste99',
-// database: 'acpbm-site',
