@@ -11,7 +11,7 @@ class Clubs extends Sequelize.Model {
                 url: {
                     type: Sequelize.VIRTUAL,
                     get() {
-                        return `https://backendacpbm.vercel.app/club-logo/${this.path}`
+                        return `https://acpbm-site-backend-production.up.railway.app/club-logo/${this.path}`
                     }
                 }
             },
