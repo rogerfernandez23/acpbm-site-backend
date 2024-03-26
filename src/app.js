@@ -6,7 +6,7 @@ const { resolve } = require('path');
 require('./database/index.js');
 
 const corsConfig = {
-  origin: 'https://facpbm.netlify.app',
+  origin: ['https://facpbm.netlify.app' || 'http://localhost:3000'],
   credentials: true,
 }
 class App {
