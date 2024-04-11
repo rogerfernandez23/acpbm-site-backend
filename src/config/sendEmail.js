@@ -1,7 +1,8 @@
 const { exec } = require('child_process');
-const pathScript = require('../integrations/email_send.py');
 
 const send = (name, email) => {
+
+  const pathScript = require('../integrations/email_send.py');
 
   const nameUser = `"${name}"`;
   const emailUser = `"${email}"`;
