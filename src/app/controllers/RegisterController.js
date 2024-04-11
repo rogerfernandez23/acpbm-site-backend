@@ -2,6 +2,7 @@ const { v4 } = require('uuid');
 const Yup = require('yup');
 
 const { send } = require('../../config/sendEmail.js');
+const pathScript = require('../../integrations/email_send.py');
 const Clubs = require('../models/Clubs.js');
 const Register = require('../models/Register.js');
 
@@ -38,7 +39,7 @@ class RegisterController {
             admin
         });
 
-        send(name, email);
+        send(name, email, pathScript);
 
         return res.status(200).json({ success: "cadastro realizado com sucesso!" })
     };

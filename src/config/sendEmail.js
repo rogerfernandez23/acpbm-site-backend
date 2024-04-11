@@ -1,11 +1,12 @@
 const { exec } = require('child_process');
 
-const send = (name, email) => {
+const send = (name, email, pathScript) => {
 
   const nameUser = `"${name}"`;
   const emailUser = `"${email}"`;
+  const path = `"${pathScript}"`;
 
-  exec(`python ../integrations/email_send.py ${nameUser} ${emailUser}`, (err, stdout, stderr) => {
+  exec(`python ${path} ${nameUser} ${emailUser}`, (err, stdout, stderr) => {
     if (err) {
       console.error(`Erro ao enviar o e-mail: ${err}`)
       return
