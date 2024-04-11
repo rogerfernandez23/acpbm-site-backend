@@ -21,7 +21,7 @@ def emailSend():
                 h1 {{
                     font-family: Roboto, sans-serif;
                     color: #000000;
-                    font-size: 32px;
+                    font-size: 24px;
                     text-align: center;
                 }}
             </style>
