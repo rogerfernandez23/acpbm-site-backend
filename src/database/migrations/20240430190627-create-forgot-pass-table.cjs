@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('TokenOrders', {
+    await queryInterface.createTable('forgots', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -12,18 +12,16 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       token: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      createdAt: {
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false
       },
@@ -31,7 +29,7 @@ module.exports = {
 },
 
 down: async (queryInterface) => {
-  await queryInterface.dropTable('TokenOrders');
+  await queryInterface.dropTable('forgots');
 },
 
 }
