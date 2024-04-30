@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const Clubs = require('../app/models/Clubs.js');
 const Register = require('../app/models/Register.js');
+const Forgot = require('../app/models/Forgot.js');
 const configDatabase = require('../config/database.cjs');
 
-const models = [Register, Clubs];
+const models = [Register, Clubs, Forgot];
 
 class Database {
     constructor() {
