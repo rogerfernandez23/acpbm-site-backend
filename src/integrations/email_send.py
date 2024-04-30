@@ -11,7 +11,7 @@ def emailSend():
     name_user = sys.argv[1]
     email_user = sys.argv[2]
 
-    with open('/backend/src/integrations/index.html', 'r', encoding='utf-8') as file:
+    with open('src/integrations/index.html', 'r', encoding='utf-8') as file:
         corpo_email_html = file.read()
 
     corpo_email = f'''
