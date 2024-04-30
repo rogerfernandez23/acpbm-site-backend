@@ -27,7 +27,7 @@ def emailSend():
             </style>
         </head>
         <body>
-            <h1>Olá, {name_user}!</h1>
+            <h1>Olá, {name_user}! 😁</h1>
             {corpo_email_html}
         </body>
     </html>
