@@ -19,6 +19,7 @@ routes.get('/', (req, res) => {
 routes.post('/register', RegisterController.store);
 routes.post('/login', LoginController.store);
 routes.post('/recovery', ForgotController.store);
+routes.patch('/savepass', ForgotController.update);
 
 routes.use(authMiddlewares);
 
