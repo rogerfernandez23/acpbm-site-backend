@@ -68,7 +68,7 @@ def sendRecovery():
         <body>
             <div class="container">
                 <h1>Redefinição de Senha</h1>
-                <p>Fala meu parça! Vejo que você solicitou um reset da sua senha. Aqui está o código para que você valide a alteração!</p>
+                <p>Fala meu federado! Vejo que você solicitou um reset da sua senha. Aqui está o código para que você valide a alteração!</p>
                 <h2>{token_recovery}</h2>
                 <p>Agora, acesse o link abaixo para escolher uma nova senha</p>
                 <a href="https://facpbm.netlify.app/logout"><button>ALTERAR MINHA SENHA</button></a>
