@@ -5,14 +5,10 @@ const { resolve } = require('path');
 
 require('./database/index.js');
 
-const corsConfig = {
-  origin: 'https://localhost:8080/',
-  credentials: true,
-}
 class App {
   constructor() {
     this.app = express();
-    this.app.use(cors(corsConfig));
+    this.app.use(cors());
     this.middlewares();
     this.routes();
   }
