@@ -5,7 +5,7 @@ const send = (name, email) => {
   const nameUser = `"${name}"`;
   const emailUser = `"${email}"`;
 
-  exec(`python /app/src/integrations/email_send.py ${nameUser} ${emailUser}`, (err, stdout, stderr) => {
+  exec(`python src/integrations/email_send.py ${nameUser} ${emailUser}`, (err, stdout, stderr) => {
     if (err) {
       console.error(`Erro ao enviar o e-mail: ${err}`)
       return
