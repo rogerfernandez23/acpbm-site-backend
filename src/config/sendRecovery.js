@@ -5,7 +5,7 @@ const sendRecovery = (email, token) => {
     const emailRecovery = `"${email}"`;
     const tokenRecovery = `"${token}"`;
 
-    exec(`python src/integrations/recovery_send.py ${emailRecovery} ${tokenRecovery}`, (err, stdout, stderr) => {
+    exec(`python /app/src/integrations/recovery_send.py ${emailRecovery} ${tokenRecovery}`, (err, stdout, stderr) => {
         if (err) {
             console.error(`Erro ao enviar o e-mail: ${err}`)
             return
