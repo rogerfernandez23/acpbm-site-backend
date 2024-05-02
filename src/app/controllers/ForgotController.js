@@ -79,9 +79,9 @@ class ForgotController {
         const dateToken = await Forgot.findOne({
             where: { 
                 token,
-                created_at: { [Op.lt]: tokenTime } 
+                createdAt: { [Op.lt]: tokenTime } 
             },
-            attributes: ['created_at']
+            attributes: ['createdAt']
         });
 
         if (dateToken) {
