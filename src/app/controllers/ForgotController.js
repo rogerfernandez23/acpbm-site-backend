@@ -58,6 +58,14 @@ class ForgotController {
 
         const { token, email, password } = req.body;
 
+        const verifyEmail = await Forgot.findOne({
+            where: { email },
+        })
+
+        if (!verifyEmail) {
+            return res.status(403).json({ error: "Este e-mail não solicitou uma redefinição de senha!"})
+        }
+
         const tokenTime = literal('NOW() - INTERVAL \'2 hours\'');
 
         const verifyToken = await Forgot.findOne({
