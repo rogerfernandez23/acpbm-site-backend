@@ -71,7 +71,11 @@ def sendRecovery():
                 <p>Fala meu federado! Vejo que você solicitou um reset da sua senha. Aqui está o código para que você valide a alteração!</p>
                 <h2>{token_recovery}</h2>
                 <p>Agora, acesse o link abaixo para escolher uma nova senha</p>
+<<<<<<< HEAD
                 <a href="https://https://facpbm.netlify.app/credentials-confirm"><button>ALTERAR MINHA SENHA</button></a>
+=======
+                <a href="https://facpbm.netlify.app/credentials-confirm"><button>ALTERAR MINHA SENHA</button></a>
+>>>>>>> 5440cf286316f7aa8ce876ecf44c200fe82fb88b
                 <p class="foot">Lembrando que este código de confirmação tem validade de 2 horas!</p>
             </div>
         </body>

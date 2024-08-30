@@ -9,7 +9,10 @@ const corsConfig = {
   origin: 'https://facpbm.netlify.app',
   credentials: true,
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5440cf286316f7aa8ce876ecf44c200fe82fb88b
 class App {
   constructor() {
     this.app = express();

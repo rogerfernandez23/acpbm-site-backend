@@ -14,7 +14,10 @@
     "build": "yarn run build"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Roger Fernandes",
+    "email": "ro.fernandes22@hotmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "base-64": "^1.0.0",
