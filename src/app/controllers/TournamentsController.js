@@ -93,6 +93,12 @@ class TournamentsController {
       return res.status(401).json({ error: "campeonato não existe" });
     }
 
+    if (findExists.status != "pending") {
+      return res
+        .status(401)
+        .json({ error: "o campeonato já foi iniciado ou concluído" });
+    }
+
     let path;
     if (req.file) {
       path = req.file.filename;

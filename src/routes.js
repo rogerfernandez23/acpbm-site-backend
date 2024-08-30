@@ -5,12 +5,14 @@ const ClubsController = require("./app/controllers/ClubsController.js");
 const ForgotController = require("./app/controllers/ForgotController.js");
 const GoogleLoginController = require("./app/controllers/GoogleLoginController.js");
 const TournamentsController = require("./app/controllers/TournamentsController.js");
+const MatchesController = require("./app/controllers/MatchesController.js");
 const PhasesController = require("./app/controllers/PhasesController.js");
 const RoundsController = require("./app/controllers/RoundsController.js");
 const multerconfig = require("./config/multer.js");
 const multer = require("multer");
 
 const authMiddlewares = require("./app/middlewares/auth.js");
+const ConfigTournamentsController = require("./app/controllers/ConfigTournamentsController.js");
 
 const upload = multer(multerconfig);
 const routes = Router();
@@ -49,6 +51,11 @@ routes.put(
 );
 routes.delete("/tournaments/:id", TournamentsController.delete);
 
+routes.patch(
+  "/tournaments/change/:id",
+  ConfigTournamentsController.changeTournamentStatus
+);
+
 // PHASES ROUTES
 routes.get("/phases", PhasesController.index);
 routes.get("/phases/:id", PhasesController.show);
@@ -62,5 +69,11 @@ routes.get("/rounds/:id", RoundsController.show);
 routes.post("/rounds", RoundsController.store);
 routes.put("/rounds/:id", RoundsController.update);
 routes.delete("/rounds/:id", RoundsController.delete);
+
+// MATCHES ROUNDS
+routes.get("/matches", MatchesController.index);
+routes.get("/matches/:id", MatchesController.show);
+routes.post("/matches", MatchesController.store);
+routes.delete("/matches/:id", MatchesController.delete);
 
 module.exports = routes;
