@@ -1,46 +1,41 @@
 "use strict";
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("clubs", {
+    await queryInterface.createTable("phases", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      club_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      club_user: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      abreviate_name: {
-        type: Sequelize.STRING,
+      tournament_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        validate: {
-          len: [3, 3],
+        references: {
+          model: "tournaments",
+          key: "id",
         },
+        onDelete: "CASCADE",
       },
-      path: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      createdAt: {
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
     });
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable("clubs");
+    await queryInterface.dropTable("phases");
   },
 };
