@@ -1,46 +1,58 @@
 "use strict";
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("clubs", {
+    await queryInterface.createTable("tournaments", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      club_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      club_user: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      abreviate_name: {
+      year: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      status: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          len: [3, 3],
-        },
+        defaultValue: "pending",
+      },
+      description: {
+        type: Sequelize.STRING(255),
+      },
+      format: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       path: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      createdAt: {
+      start_date: {
         type: Sequelize.DATE,
-        allowNull: false,
       },
-      updatedAt: {
+      end_date: {
+        type: Sequelize.DATE,
+      },
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
     });
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable("clubs");
+    await queryInterface.dropTable("tournaments");
   },
 };
