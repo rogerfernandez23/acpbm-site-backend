@@ -6,6 +6,7 @@ const ForgotController = require("./app/controllers/ForgotController.js");
 const GoogleLoginController = require("./app/controllers/GoogleLoginController.js");
 const TournamentsController = require("./app/controllers/TournamentsController.js");
 const PhasesController = require("./app/controllers/PhasesController.js");
+const RoundsController = require("./app/controllers/RoundsController.js");
 const multerconfig = require("./config/multer.js");
 const multer = require("multer");
 
@@ -54,5 +55,12 @@ routes.get("/phases/:id", PhasesController.show);
 routes.post("/phases", PhasesController.store);
 routes.put("/phases/:id", PhasesController.update);
 routes.delete("/phases/:id", PhasesController.delete);
+
+// ROUNDS ROUTES
+routes.get("/rounds", RoundsController.index);
+routes.get("/rounds/:id", RoundsController.show);
+routes.post("/rounds", RoundsController.store);
+routes.put("/rounds/:id", RoundsController.update);
+routes.delete("/rounds/:id", RoundsController.delete);
 
 module.exports = routes;

@@ -32,7 +32,7 @@ class TournamentsController {
 
     if (tournamentExists) {
       return res.status(400).json({
-        error: "A championship with that name and year already exists.",
+        error: "Esse campeonato já foi criado",
       });
     }
 
@@ -68,16 +68,14 @@ class TournamentsController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      year: Yup.number().required(),
-      description: Yup.string().required().max(255),
-      start_date: Yup.date().required(),
-      end_date: Yup.date()
-        .required()
-        .min(
-          Yup.ref("start_date"),
-          "The end date must be later than the start date"
-        ),
+      name: Yup.string(),
+      year: Yup.number(),
+      description: Yup.string().max(255),
+      start_date: Yup.date(),
+      end_date: Yup.date().min(
+        Yup.ref("start_date"),
+        "The end date must be later than the start date"
+      ),
     });
 
     try {
