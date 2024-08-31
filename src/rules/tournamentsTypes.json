@@ -1,0 +1,14 @@
+{
+  "league": {
+    "name": "Pontos Corridos",
+    "description": "Todos jogam contra todos em grupo único."
+  },
+  "knockout": {
+    "name": "Eliminatória",
+    "description": "Formato de mata-mata em duelos de um ou duas partidas."
+  },
+  "cup":{
+    "name": "Copa",
+    "description": "Formato divido em fases de Liga e Mata-Mata."
+  }
+}
