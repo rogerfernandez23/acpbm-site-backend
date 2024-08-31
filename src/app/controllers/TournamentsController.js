@@ -1,5 +1,6 @@
 const Yup = require("yup");
 const Tournaments = require("../models/Tournaments.js");
+const { loadTournamentsTypes } = require("../../utils/loadRules.js");
 
 class TournamentsController {
   async store(req, res) {
@@ -15,6 +16,7 @@ class TournamentsController {
           Yup.ref("start_date"),
           "The end date must be later than the start date"
         ),
+      teams_number: Yup.number().required(),
     });
 
     try {
@@ -23,8 +25,18 @@ class TournamentsController {
       return res.status(400).json({ error: err.errors });
     }
 
-    const { name, year, description, format, start_date, end_date } = req.body;
+    const {
+      name,
+      year,
+      description,
+      format,
+      start_date,
+      end_date,
+      teams_number,
+    } = req.body;
     const { filename: path } = req.file;
+
+    const tournamentTypes = loadTournamentsTypes();
 
     const tournamentExists = await Tournaments.findOne({
       where: { name, year },
@@ -36,6 +48,10 @@ class TournamentsController {
       });
     }
 
+    if (!tournamentTypes[format]) {
+      return res.status(400).json({ error: "Tipo de campeonato inválido" });
+    }
+
     await Tournaments.create({
       name,
       year,
@@ -44,6 +60,7 @@ class TournamentsController {
       path,
       start_date,
       end_date,
+      teams_number,
     });
 
     return res.status(200).json({ success: "Torneio criado com sucesso!" });

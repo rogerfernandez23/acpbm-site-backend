@@ -9,6 +9,7 @@ class Tournaments extends Sequelize.Model {
         status: Sequelize.STRING,
         description: Sequelize.STRING(255),
         format: Sequelize.STRING,
+        teams_number: Sequelize.INTEGER,
         path: Sequelize.STRING,
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
