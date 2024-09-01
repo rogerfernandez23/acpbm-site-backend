@@ -9,6 +9,10 @@
   },
   "cup":{
     "name": "Copa",
+    "description": "Formato divido em fases de grupos e Mata-Mata."
+  },
+  "cup-league": {
+    "name": "Copa com Pontos corridos",
     "description": "Formato divido em fases de Liga e Mata-Mata."
   }
 }
