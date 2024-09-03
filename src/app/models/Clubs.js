@@ -22,6 +22,14 @@ class Clubs extends Sequelize.Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsToMany(models.Tournaments, {
+      through: models.TournamentClubs,
+      as: "tournaments",
+      foreignKey: "club_id",
+    });
+  }
 }
 
 module.exports = Clubs;

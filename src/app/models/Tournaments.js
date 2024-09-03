@@ -29,6 +29,12 @@ class Tournaments extends Sequelize.Model {
   }
 
   static associate(models) {
+    this.belongsToMany(models.Clubs, {
+      through: models.TournamentClubs,
+      as: "clubs",
+      foreignKey: "tournament_id",
+    });
+
     this.hasMany(models.Matches, {
       foreignKey: "tournament_id",
       as: "matches",
