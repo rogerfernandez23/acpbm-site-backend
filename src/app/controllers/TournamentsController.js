@@ -1,6 +1,8 @@
 const Yup = require("yup");
 const Tournaments = require("../models/Tournaments.js");
-const { loadTournamentsTypes } = require("../../utils/loadRules.js");
+const {
+  loadTournamentsTypes,
+} = require("../../utils/loadRulesTournamentCreate.js");
 
 class TournamentsController {
   async store(req, res) {

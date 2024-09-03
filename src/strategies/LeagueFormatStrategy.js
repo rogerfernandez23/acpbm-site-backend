@@ -7,29 +7,29 @@ class LeagueFormatStrategy extends TournamentStrategyFormat {
 
     const isOdd = teamsNumber % 2 !== 0;
     if (isOdd) {
-      teams.push({ id: null, name: "off" });
+      teams.push({ id: 0, name: "off" });
     }
 
-    for (let round = 0; round < teamsNumber - 1 + (isOdd ? 1 : 0); round++) {
-      for (let i = 0; i < teamsNumber / 2; i++) {
-        const home = teams[i];
-        const away = teams[teamsNumber - 1 - i];
+    const totalRounds = teams.length - 1;
+    const halfSize = teams.length / 2;
 
-        if (home.id && away.id) {
-          const shift = {
+    for (let round = 0; round < totalRounds; round++) {
+      for (let i = 0; i < halfSize; i++) {
+        const home = teams[i];
+        const away = teams[teams.length - 1 - i];
+
+        if (home.id && away.id && home.id !== away.id) {
+          matches.push({
             home_team_id: home.id,
             away_team_id: away.id,
-            round: round + 1,
-          };
+            round_number: round + 1,
+          });
 
-          const reShift = {
+          matches.push({
             home_team_id: away.id,
             away_team_id: home.id,
-            round: round + 1,
-          };
-
-          matches.push(shift);
-          matches.push(reShift);
+            round_number: round + teams.length,
+          });
         }
       }
 
@@ -40,4 +40,4 @@ class LeagueFormatStrategy extends TournamentStrategyFormat {
   }
 }
 
-module.exports = LeagueFormatStrategy();
+module.exports = LeagueFormatStrategy;

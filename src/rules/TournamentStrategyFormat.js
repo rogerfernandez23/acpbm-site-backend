@@ -4,4 +4,4 @@ class TournamentFormatStrategy {
   }
 }
 
-module.exports = new TournamentFormatStrategy();
+module.exports = TournamentFormatStrategy;
