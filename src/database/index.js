@@ -3,12 +3,22 @@ const Clubs = require("../app/models/Clubs.js");
 const Register = require("../app/models/Register.js");
 const Forgot = require("../app/models/Forgot.js");
 const Tournaments = require("../app/models/Tournaments.js");
+const TournamentClubs = require("../app/models/TournamentClubs.js");
 const Matches = require("../app/models/Matches.js");
 const Rounds = require("../app/models/Rounds.js");
 const Phases = require("../app/models/Phases.js");
 const configDatabase = require("../config/database.cjs");
 
-const models = [Register, Clubs, Forgot, Tournaments, Matches, Rounds, Phases];
+const models = [
+  Register,
+  Clubs,
+  Forgot,
+  Tournaments,
+  TournamentClubs,
+  Matches,
+  Rounds,
+  Phases,
+];
 
 class Database {
   constructor() {

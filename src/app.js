@@ -1,18 +1,14 @@
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const routes = require("./routes.js");
-const { resolve } = require('path');
+const { resolve } = require("path");
 
-require('./database/index.js');
+require("./database/index.js");
 
 const corsConfig = {
-  origin: 'https://facpbm.netlify.app',
+  origin: "https://facpbm.netlify.app",
   credentials: true,
-}
-<<<<<<< HEAD
-
-=======
->>>>>>> 5440cf286316f7aa8ce876ecf44c200fe82fb88b
+};
 class App {
   constructor() {
     this.app = express();
@@ -23,10 +19,11 @@ class App {
 
   middlewares() {
     this.app.use(express.json());
+    this.app.use("/club-logo", express.static(resolve(__dirname, "uploads")));
     this.app.use(
-      '/club-logo',
-      express.static(resolve(__dirname, 'uploads'))
-    )
+      "/tournament-logo",
+      express.static(resolve(__dirname, "uploads"))
+    );
   }
 
   routes() {
@@ -35,4 +32,3 @@ class App {
 }
 
 module.exports = new App().app;
-
