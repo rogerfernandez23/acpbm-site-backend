@@ -1,4 +1,5 @@
 const LeagueFormatStrategy = require("../../strategies/LeagueFormatStrategy");
+const CupFormatStrategy = require("../../strategies/CupFormatStrategy");
 const generatedLeagueMatches = require("../../utils/generatorRoundsLeague");
 const Matches = require("../models/Matches");
 const Phases = require("../models/Phases");
@@ -69,6 +70,20 @@ class GeneratedMatchesController {
       console.log(error);
       return res.status(500).json({ error: "erro na geração de partidas!" });
     }
+  }
+
+  async generatedCupMatches(req, res) {
+    const teams = req.body;
+    console.log(teams);
+    const { id: tournament_id } = req.params;
+
+    const cupFormat = new CupFormatStrategy();
+
+    const generatedMatches = await cupFormat.generate(teams);
+
+    console.log(generatedMatches);
+
+    return res.status(200).json({ success: "partidas geradas com sucesso!" });
   }
 }
 
