@@ -1,11 +1,13 @@
 const LeagueFormatStrategy = require("../../strategies/LeagueFormatStrategy");
 const CupFormatStrategy = require("../../strategies/CupFormatStrategy");
-const generatedLeagueMatches = require("../../utils/generatorRoundsLeague");
+const generatedRoundsLeague = require("../../utils/generatedRoundsLeague");
 const Matches = require("../models/Matches");
 const Phases = require("../models/Phases");
 const Rounds = require("../models/Rounds");
+const generatorCupGroups = require("../../utils/generatorCupGroups");
+const generatedRoundsCup = require("../../utils/generatorRoundsCup");
 
-class GeneratedMatchesController {
+class GeneratedTournamentController {
   async generatedLeagueMatches(req, res) {
     try {
       let phase = "Fase Única";
@@ -17,7 +19,7 @@ class GeneratedMatchesController {
       const generatedMatches = await leagueFormat.generate(teams);
 
       const phaseExists = await Phases.findOne({
-        where: { name: phase },
+        where: { name: phase, tournament_id },
       });
 
       if (phaseExists) {
@@ -30,7 +32,7 @@ class GeneratedMatchesController {
       });
 
       const phase_id = createPhase.id;
-      await generatedLeagueMatches(tournament_id, phase_id, teams);
+      await generatedRoundsLeague(tournament_id, phase_id, teams);
 
       const roundsId = await Rounds.findAll({
         where: {
@@ -48,7 +50,6 @@ class GeneratedMatchesController {
         .map((match) => {
           const round_id = round[match.round_number];
 
-          console.log(round_id);
           if (!round_id) {
             return null;
           }
@@ -73,18 +74,64 @@ class GeneratedMatchesController {
   }
 
   async generatedCupMatches(req, res) {
+    let phase = "Fase de Grupos";
     const teams = req.body;
-    console.log(teams);
     const { id: tournament_id } = req.params;
 
     const cupFormat = new CupFormatStrategy();
+    const generatedMatches = cupFormat.generate(teams);
 
-    const generatedMatches = await cupFormat.generate(teams);
+    const phaseExists = await Phases.findOne({
+      where: { name: phase, tournament_id },
+    });
 
-    console.log(generatedMatches);
+    if (phaseExists) {
+      return res.status(401).json({ error: "erro na geração de partidas" });
+    }
 
+    const createPhase = await Phases.create({
+      name: phase,
+      tournament_id,
+    });
+
+    const phase_id = createPhase.id;
+    await generatedRoundsCup(tournament_id, phase_id, teams);
+
+    const roundsId = await Rounds.findAll({
+      where: {
+        tournament_id,
+        phase_id,
+      },
+    });
+
+    const round = roundsId.reduce((acc, round) => {
+      acc[round.number_round] = round.id;
+      return acc;
+    }, {});
+
+    const matches = generatedMatches
+      .map((match) => {
+        const round_id = round[match.round_number];
+
+        if (!round_id) {
+          return null;
+        }
+
+        return {
+          ...match,
+          tournament_id,
+          phase_id,
+          round_id,
+          date: new Date(),
+        };
+      })
+      .filter((match) => match !== null);
+
+    await Matches.bulkCreate(matches);
+
+    console.log(matches);
     return res.status(200).json({ success: "partidas geradas com sucesso!" });
   }
 }
 
-module.exports = new GeneratedMatchesController();
+module.exports = new GeneratedTournamentController();
