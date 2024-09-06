@@ -1,6 +1,6 @@
 const Rounds = require("../app/models/Rounds");
 
-async function generatedRoundsLeague(tournament_id, phase_id, teams) {
+async function generatorRoundsLeague(tournament_id, phase_id, teams) {
   try {
     let totalRounds = (teams.length - 1) * 2;
     let matchCount = teams.length / 2;
@@ -28,4 +28,4 @@ async function generatedRoundsLeague(tournament_id, phase_id, teams) {
   }
 }
 
-module.exports = generatedRoundsLeague;
+module.exports = generatorRoundsLeague;

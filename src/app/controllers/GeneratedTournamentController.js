@@ -1,6 +1,6 @@
 const LeagueFormatStrategy = require("../../strategies/LeagueFormatStrategy");
 const CupFormatStrategy = require("../../strategies/CupFormatStrategy");
-const generatedRoundsLeague = require("../../utils/generatedRoundsLeague");
+const generatorRoundsLeague = require("../../utils/generatedRoundsLeague");
 const Matches = require("../models/Matches");
 const Phases = require("../models/Phases");
 const Rounds = require("../models/Rounds");
@@ -32,7 +32,7 @@ class GeneratedTournamentController {
       });
 
       const phase_id = createPhase.id;
-      await generatedRoundsLeague(tournament_id, phase_id, teams);
+      await generatorRoundsLeague(tournament_id, phase_id, teams);
 
       const roundsId = await Rounds.findAll({
         where: {
