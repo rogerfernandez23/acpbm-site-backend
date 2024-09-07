@@ -49,6 +49,11 @@ class Tournaments extends Sequelize.Model {
       foreignKey: "tournament_id",
       as: "phases",
     });
+
+    this.hasMany(models.Standings, {
+      foreignKey: "tournament_id",
+      as: "standings",
+    });
   }
 }
 

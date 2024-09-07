@@ -29,6 +29,11 @@ class Phases extends Sequelize.Model {
       foreignKey: "phase_id",
       as: "matches",
     });
+
+    this.hasMany(models.Standings, {
+      foreignKey: "phase_id",
+      as: "standings",
+    });
   }
 }
 
