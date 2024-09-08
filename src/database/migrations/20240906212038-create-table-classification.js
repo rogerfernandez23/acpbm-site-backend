@@ -65,6 +65,10 @@ module.exports = {
         type: Sequelize.FLOAT,
         defaultValue: 0.0,
       },
+      group_name: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
