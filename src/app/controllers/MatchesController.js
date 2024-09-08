@@ -4,6 +4,7 @@ const Matches = require("../models/Matches.js");
 const Rounds = require("../models/Rounds.js");
 const Phases = require("../models/Phases.js");
 const Tournaments = require("../models/Tournaments.js");
+const standingsRefresh = require("../../utils/standingsRefresh.js");
 
 class MatchesController {
   async store(req, res) {
@@ -66,6 +67,38 @@ class MatchesController {
     });
 
     return res.status(200).json({ success: "partida agendada com sucesso!" });
+  }
+
+  async savingResults(req, res) {
+    const {
+      id,
+      home_team_id: home,
+      away_team_id: away,
+      home_team_score: homeScore,
+      away_team_score: awayScore,
+    } = req.body;
+    const { id: tournament_id } = req.params;
+
+    const matchExists = await Matches.findByPk(id);
+    if (!matchExists) {
+      return res.status(401).json({ error: "esta partida não existe!" });
+    }
+
+    await standingsRefresh(home, away, homeScore, awayScore, tournament_id);
+
+    await Matches.update(
+      {
+        home_team_score: homeScore,
+        away_team_score: awayScore,
+      },
+      {
+        where: { id },
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ success: "resultado registrado com sucesso!" });
   }
 
   async index(req, res) {

@@ -15,6 +15,7 @@ class Standings extends Sequelize.Model {
         points_pro: Sequelize.INTEGER,
         points_score: Sequelize.INTEGER,
         percent_points: Sequelize.INTEGER,
+        group_name: Sequelize.STRING,
       },
       {
         sequelize,
