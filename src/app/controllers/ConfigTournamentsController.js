@@ -1,11 +1,18 @@
 const Tournaments = require("../models/Tournaments");
 const Clubs = require("../models/Clubs");
 const TournamentClubs = require("../models/TournamentClubs");
+const {
+  standingsCreateLeague,
+  standingsCreateCup,
+} = require("../../utils/standingsTable");
+const generatorGroups = require("../../utils/generatorCupGroups");
+
+const { Op } = require("sequelize");
 
 class ConfigTournamentsController {
-  async addClubs(req, res) {
+  async addClubsLeague(req, res) {
     const { id: tournament_id } = req.params;
-    const { club_id: clubId, group_name } = req.body;
+    const { club_id: clubId } = req.body;
 
     const tournamentExists = await Tournaments.findByPk(tournament_id);
     if (!tournamentExists) {
@@ -24,15 +31,71 @@ class ConfigTournamentsController {
         .json({ error: "um ou mais clubes não foram encontrados" });
     }
 
-    const insertingClubs = clubId.map((club) => ({
+    const clubs = clubId.map((club) => ({
       tournament_id,
       club_id: club,
-      group_name,
     }));
 
-    await TournamentClubs.bulkCreate(insertingClubs);
+    await standingsCreateLeague(clubs);
+
+    await TournamentClubs.bulkCreate(clubs);
 
     return res.status(200).json({ success: "clubes adicionados com sucesso!" });
+  }
+
+  async addClubsCup(req, res) {
+    const { id: tournament_id } = req.params;
+    const clubsAndGroups = req.body;
+
+    const tournamentExists = await Tournaments.findByPk(tournament_id);
+    if (!tournamentExists) {
+      return res.status(401).json({ error: "campeonato não existe" });
+    }
+
+    for (const group of clubsAndGroups) {
+      const ids = group.club_id;
+
+      const clubExists = await Clubs.findAll({
+        where: {
+          id: {
+            [Op.in]: ids,
+          },
+        },
+      });
+
+      if (clubExists.length !== ids.length) {
+        return res
+          .status(404)
+          .json({ error: "um ou mais clubes não foram encontrados" });
+      }
+    }
+
+    const clubs = clubsAndGroups.flatMap((group) =>
+      group.club_id.map((id) => ({
+        tournament_id,
+        club_id: id,
+        group_name: group.group_name,
+      }))
+    );
+
+    await standingsCreateCup(clubs);
+
+    await TournamentClubs.bulkCreate(clubs);
+
+    return res.status(200).json({ success: "clubes adicionados com sucesso!" });
+  }
+
+  async automatedGroupsCup(req, res) {
+    const { id: groupsNumber } = req.params;
+    const teams = req.body;
+
+    const drawGroups = generatorGroups(teams, groupsNumber);
+
+    if (drawGroups.length === 0) {
+      return res.status(401).json({ error: "erro na geração do sorteio" });
+    }
+
+    return res.status(200).json(drawGroups);
   }
 
   async changeTournamentStatus(req, res) {

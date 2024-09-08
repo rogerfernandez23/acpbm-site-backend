@@ -2,7 +2,7 @@ function generatorGroups(teams, groupsNumber) {
   const groupSize = teams.length / groupsNumber;
 
   if (groupSize % 2 !== 0) {
-    throw new Error("O número de times por grupo não é par");
+    return [];
   }
 
   const potDraw = [...teams];
@@ -12,10 +12,10 @@ function generatorGroups(teams, groupsNumber) {
 
   for (let i = 0; i < potDraw.length; i++) {
     const groupIndex = Math.floor(i / groupSize);
+    potDraw[i].group_name = `Grupo ${groupIndex + 1}`;
+
     groups[groupIndex].push(potDraw[i]);
   }
-
-  console.log(groups);
 
   return groups;
 }
