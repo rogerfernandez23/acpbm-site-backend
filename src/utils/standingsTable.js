@@ -1,5 +1,4 @@
 const Standings = require("../app/models/Standings");
-const tiebreakerCriteria = require("./tiebreakerCriteria");
 
 async function standingsCreateLeague(clubs) {
   console.log(clubs);
@@ -52,21 +51,21 @@ async function refreshPhaseId(phase_id, tournament_id) {
   );
 }
 
-function standingsTable(teams) {
-  const classificationTeams = tiebreakerCriteria(teams);
-
-  const classification = classificationTeams.map((team, index) => {
+function standingsReturn(standings) {
+  console.log(standings);
+  const classification = standings.map((team, index) => {
     return {
-      position: index + 1,
-      id: team.id,
-      name: team.name,
-      points: team.points,
-      wins: team.wins,
-      draw: team.draw,
-      lose: team.lose,
-      proPoints: team.proPoints,
-      pointsScored: team.pointsScored,
-      utilization: team.utilization,
+      POS: index + 1,
+      id: team.dataValues.club_id,
+      Clube: team.dataValues.clubs.club_name,
+      Pontos: team.dataValues.points,
+      Vitórias: team.dataValues.wins,
+      Empates: team.dataValues.draw,
+      Derrotas: team.dataValues.losses,
+      PontosPró: team.dataValues.points_pro,
+      SaldoPontos: team.dataValues.points_score,
+      Aproveitamento: team.dataValues.percent_points,
+      Grupo: team.dataValues.group_name,
     };
   });
 
@@ -74,7 +73,7 @@ function standingsTable(teams) {
 }
 
 module.exports = {
-  standingsTable,
+  standingsReturn,
   standingsCreateLeague,
   standingsCreateCup,
   refreshPhaseId,
