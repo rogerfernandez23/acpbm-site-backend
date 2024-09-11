@@ -6,6 +6,7 @@ const {
   standingsCreateCup,
 } = require("../../utils/standingsTable");
 const generatorGroups = require("../../utils/generatorCupGroups");
+const KnockoutFormatStrategy = require("../../strategies/KnockoutFormatStrategy");
 
 const { Op } = require("sequelize");
 
@@ -79,6 +80,47 @@ class ConfigTournamentsController {
     );
 
     await standingsCreateCup(clubs);
+
+    await TournamentClubs.bulkCreate(clubs);
+
+    return res.status(200).json({ success: "clubes adicionados com sucesso!" });
+  }
+
+  async addClubsKnockout(req, res) {
+    const { id: tournament_id } = req.params;
+    const { club_id: clubId } = req.body;
+
+    const tournamentExists = await Tournaments.findByPk(tournament_id);
+    if (!tournamentExists) {
+      return res.status(401).json({ error: "campeonato não existe" });
+    }
+
+    const clubExists = await Clubs.findAll({
+      where: {
+        id: clubId,
+      },
+    });
+
+    if (clubExists.length !== clubId.length) {
+      return res
+        .status(404)
+        .json({ error: "um ou mais clubes não foram encontrados" });
+    }
+
+    const knockoutFormat = new KnockoutFormatStrategy();
+    const phases = await knockoutFormat.generatePhases(clubExists);
+
+    for (const phaseName of phases) {
+      await Phases.create({
+        tournament_id,
+        name: phaseName,
+      });
+    }
+
+    const clubs = clubId.map((club) => ({
+      tournament_id,
+      club_id: club,
+    }));
 
     await TournamentClubs.bulkCreate(clubs);
 
