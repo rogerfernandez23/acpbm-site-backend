@@ -19,6 +19,9 @@ class TournamentsController {
           "The end date must be later than the start date"
         ),
       teams_number: Yup.number().required(),
+      teams_group: Yup.number(),
+      teams_qualified: Yup.number(),
+      teams_next_round: Yup.number(),
     });
 
     try {
@@ -35,6 +38,9 @@ class TournamentsController {
       start_date,
       end_date,
       teams_number,
+      teams_group,
+      teams_qualified,
+      teams_next_round,
     } = req.body;
     const { filename: path } = req.file;
 
@@ -63,6 +69,9 @@ class TournamentsController {
       start_date,
       end_date,
       teams_number,
+      teams_group,
+      teams_qualified,
+      teams_next_round,
     });
 
     return res.status(200).json({ success: "Torneio criado com sucesso!" });

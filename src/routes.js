@@ -14,6 +14,7 @@ const multer = require("multer");
 const authMiddlewares = require("./app/middlewares/auth.js");
 const ConfigTournamentsController = require("./app/controllers/ConfigTournamentsController.js");
 const GeneratedTournamentController = require("./app/controllers/GeneratedTournamentController.js");
+const StandingsController = require("./app/controllers/StandingsController.js");
 
 const upload = multer(multerconfig);
 const routes = Router();
@@ -56,7 +57,22 @@ routes.patch(
   "/tournaments/change/:id",
   ConfigTournamentsController.changeTournamentStatus
 );
-routes.post("/tournaments/add/:id", ConfigTournamentsController.addClubs);
+routes.post(
+  "/tournaments/league/add/:id",
+  ConfigTournamentsController.addClubsLeague
+);
+routes.post(
+  "/tournaments/cup/add/:id",
+  ConfigTournamentsController.addClubsCup
+);
+routes.post(
+  "/tournaments/knockout/add/:id",
+  ConfigTournamentsController.addClubsKnockout
+);
+routes.post(
+  "/tournaments/cup/draw/:id",
+  ConfigTournamentsController.automatedGroupsCup
+);
 
 // PHASES ROUTES
 routes.get("/phases", PhasesController.index);
@@ -77,6 +93,7 @@ routes.get("/matches", MatchesController.index);
 routes.get("/matches/:id", MatchesController.show);
 routes.post("/matches", MatchesController.store);
 routes.delete("/matches/:id", MatchesController.delete);
+routes.patch("/matches/edit/:id", MatchesController.savingResults);
 
 routes.post(
   "/matches/league/generator/:id",
@@ -86,5 +103,12 @@ routes.post(
   "/matches/cup/generator/:id",
   GeneratedTournamentController.generatedCupMatches
 );
+routes.post(
+  "/matches/knockout/generator/:id",
+  GeneratedTournamentController.generateKnockoutMatches
+);
+
+// STANDINGS ROUTES
+routes.get("/standings/:id", StandingsController.showStanding);
 
 module.exports = routes;
