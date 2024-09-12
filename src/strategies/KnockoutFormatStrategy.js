@@ -17,6 +17,27 @@ class KnockoutFormatStrategy extends TournamentFormatStrategy {
     return matches;
   }
 
+  generateRounds(teams, tournament_id) {
+    const rounds = [];
+    let totalTeams = teams.length;
+    let roundNumber = 1;
+
+    while (totalTeams > 1) {
+      const match_count = totalTeams / 2;
+
+      rounds.push({
+        number_round: roundNumber,
+        match_count,
+        tournament_id,
+      });
+
+      totalTeams = totalTeams / 2;
+      roundNumber++;
+    }
+
+    return rounds;
+  }
+
   generatePhases(teams) {
     const phases = [];
     const numberTeams = teams.length;

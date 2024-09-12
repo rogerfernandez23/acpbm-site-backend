@@ -6,6 +6,7 @@ const Phases = require("../models/Phases");
 const Rounds = require("../models/Rounds");
 const generatedRoundsCup = require("../../utils/generatorRoundsCup");
 const { refreshPhaseId } = require("../../utils/standingsTable");
+const KnockoutFormatStrategy = require("../../strategies/KnockoutFormatStrategy");
 
 class GeneratedTournamentController {
   async generatedLeagueMatches(req, res) {
@@ -132,6 +133,42 @@ class GeneratedTournamentController {
     await Matches.bulkCreate(matches);
 
     console.log(matches);
+    return res.status(200).json({ success: "partidas geradas com sucesso!" });
+  }
+
+  async generateKnockoutMatches(req, res) {
+    const teams = req.body;
+    const { id: tournament_id } = req.params;
+
+    const knockoutFormat = new KnockoutFormatStrategy();
+    const phases = await knockoutFormat.generatePhases(teams);
+    const matches = await knockoutFormat.generate(teams, phases);
+    const rounds = await knockoutFormat.generateRounds(teams, tournament_id);
+
+    const phasesTournamentId = await Phases.findAll({
+      where: { tournament_id },
+    });
+
+    const phase = phasesTournamentId.map((phase) => phase.dataValues.id);
+
+    const saveRounds = rounds.map((round, index) => ({
+      ...round,
+      phase_id: phase[0],
+    }));
+
+    console.log(saveRounds);
+    // await Rounds.bulkCreate(saveRounds);
+
+    // for (const match of matches) {
+    //   await Matches.create({
+    //     tournament_id,
+    //     phase_id: phaseName,
+    //     home_team_id: match.homeTeam.id,
+    //     away_team_id: match.awayTeam.id,
+    //     date: new Date(),
+    //   });
+    // }
+
     return res.status(200).json({ success: "partidas geradas com sucesso!" });
   }
 }
