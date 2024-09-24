@@ -8,7 +8,7 @@ const generatedRoundsCup = require("../../utils/generatorRoundsCup");
 const { refreshPhaseId } = require("../../utils/standingsTable");
 const KnockoutFormatStrategy = require("../../strategies/KnockoutFormatStrategy");
 
-class GeneratedTournamentController {
+class GeneratedMatchesController {
   async generatedLeagueMatches(req, res) {
     try {
       let phase = "Fase Única";
@@ -143,34 +143,32 @@ class GeneratedTournamentController {
     const knockoutFormat = new KnockoutFormatStrategy();
     const phases = await knockoutFormat.generatePhases(teams);
     const matches = await knockoutFormat.generate(teams, phases);
-    const rounds = await knockoutFormat.generateRounds(teams, tournament_id);
 
     const phasesTournamentId = await Phases.findAll({
       where: { tournament_id },
     });
 
-    const phase = phasesTournamentId.map((phase) => phase.dataValues.id);
+    const phase = phasesTournamentId.find((p) => phases.includes(p.name));
+    const phase_id = phase.dataValues.id;
 
-    const saveRounds = rounds.map((round, index) => ({
-      ...round,
-      phase_id: phase[0],
-    }));
+    const round = await Rounds.findAll({
+      where: { phase_id },
+    });
+    const round_id = round.map((round) => round.dataValues.id);
 
-    console.log(saveRounds);
-    // await Rounds.bulkCreate(saveRounds);
-
-    // for (const match of matches) {
-    //   await Matches.create({
-    //     tournament_id,
-    //     phase_id: phaseName,
-    //     home_team_id: match.homeTeam.id,
-    //     away_team_id: match.awayTeam.id,
-    //     date: new Date(),
-    //   });
-    // }
+    for (const match of matches) {
+      await Matches.create({
+        home_team_id: match.home.id,
+        away_team_id: match.away.id,
+        tournament_id,
+        phase_id,
+        round_id,
+        date: new Date(),
+      });
+    }
 
     return res.status(200).json({ success: "partidas geradas com sucesso!" });
   }
 }
 
-module.exports = new GeneratedTournamentController();
+module.exports = new GeneratedMatchesController();

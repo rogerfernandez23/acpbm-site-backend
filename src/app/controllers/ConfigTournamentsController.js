@@ -1,6 +1,9 @@
 const Tournaments = require("../models/Tournaments");
 const Clubs = require("../models/Clubs");
 const TournamentClubs = require("../models/TournamentClubs");
+const Phases = require("../models/Phases");
+const Rounds = require("../models/Rounds");
+
 const {
   standingsCreateLeague,
   standingsCreateCup,
@@ -109,6 +112,10 @@ class ConfigTournamentsController {
 
     const knockoutFormat = new KnockoutFormatStrategy();
     const phases = await knockoutFormat.generatePhases(clubExists);
+    const rounds = await knockoutFormat.generateRounds(
+      clubExists,
+      tournament_id
+    );
 
     for (const phaseName of phases) {
       await Phases.create({
@@ -116,6 +123,19 @@ class ConfigTournamentsController {
         name: phaseName,
       });
     }
+
+    const phasesTournamentId = await Phases.findAll({
+      where: { tournament_id },
+    });
+
+    const phase = phasesTournamentId.map((phase) => phase.dataValues.id);
+
+    const saveRounds = rounds.map((round, index) => ({
+      ...round,
+      phase_id: phase[index],
+    }));
+
+    await Rounds.bulkCreate(saveRounds);
 
     const clubs = clubId.map((club) => ({
       tournament_id,
